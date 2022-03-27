@@ -19,13 +19,79 @@ def load_data():
     return athletes, countries
 
 # STREAMLIT APP LAYOUT
-athletes_data,countries_data = load_data()
-print(athletes_data.head())
+df_athletes,df_countries = load_data()
 
-st.title("Streamlit 101: An in-depth introduction")
+#query data
+dff = []
+
+df_countries = df_countries.sort_values(by=['Medals'], ascending = False)
+
+for x in range(len(df_countries['Nation'])):
+    nation = df_countries['Nation'].iloc[x]
+    medals = [df_countries['Bronzes'].iloc[x], df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
+    medal = ['Bronze', 'Silver', 'Gold']
+    count = df_countries['Medals'].iloc[x]
+
+    for y in range(3):
+
+      dff.append([nation,medals[y],medal[y],count ])
+
+MedalDF = pd.DataFrame(dff)
+MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2:'Medal',3:'Sum'})
+print(MedalDF.head())
+
+
+st.title("Olympics dataset: An insight into countries and athletes")
 st.markdown("Welcome to this in-depth introduction to [...].")
-st.header("Customary quote")
-st.markdown("> I just love to go home, no matter where I am [...]")
+
+#create bar chart
+def draw_bars(scope):
+
+    # normalized
+    bars = alt.Chart(MedalDF).mark_bar().encode(
+        x=alt.X('Amount', stack="normalize"),
+        y='Country',
+        color='Medal'
+    )
+
+    text = bars.mark_text(
+        align='left',
+        baseline='middle',
+        dx=3  # Nudges text to right so it doesn't appear on top of the bar
+    ).encode(
+        text='Sum'
+    )
+
+    (bars + text).properties()
+
+    return (bars + text).properties()
+
+
+#display bar chart
+#st.write(draw_bars(['Total']))
+
+
+#Radiobuttons to select
+
+barSelection = st.radio(
+     "Select the scope",
+     ('Total', 'Medals/GDP', 'Medals/Population'))
+
+st.write(draw_bars(barSelection))
+
+# if genre == 'Comedy':
+#      st.write('You selected comedy.')
+
+
+
+
+
+# Box to select
+# option = st.selectbox(
+#      'How would you like to be contacted?',
+#      ('Email', 'Home phone', 'Mobile phone'))
+#
+# st.write('You selected:', option)
 
 
 # # FUNCTION FOR AIRPORT MAPS
