@@ -13,8 +13,8 @@ st.set_page_config(layout="wide")
 #st.cache makes the data to be only loaded once - decorator
 @st.cache
 def load_data():
-    athletes = pd.read_csv("data/athletes_cleaned.csv" )
-    countries = pd.read_csv("data/countries_cleaned.csv" )
+    athletes = pd.read_csv("/Users/jpgan/Documents/GitHub/Team_Amazeballs/Dataviz/athletes_cleaned (1).csv" )
+    countries = pd.read_csv("/Users/jpgan/Documents/GitHub/Team_Amazeballs/Dataviz/countries_cleaned (1).csv" )
 
     return athletes, countries
 
