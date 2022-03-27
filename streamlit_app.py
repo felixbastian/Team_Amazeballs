@@ -21,40 +21,106 @@ def load_data():
 # STREAMLIT APP LAYOUT
 df_athletes,df_countries = load_data()
 
-#query data
+
+
 dff = []
 
-df_countries = df_countries.sort_values(by=['Medals'], ascending = False)
+df_countries = df_countries.sort_values(by=['Medal.1'], ascending = False)
 
 for x in range(len(df_countries['Nation'])):
     nation = df_countries['Nation'].iloc[x]
-    medals = [df_countries['Bronzes'].iloc[x], df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
+    medals = [df_countries['Bronze'].iloc[x], df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
     medal = ['Bronze', 'Silver', 'Gold']
-    count = df_countries['Medals'].iloc[x]
+    ordering = [1,2,3]
+    count = df_countries['Medal.1'].iloc[x]
 
     for y in range(3):
 
-      dff.append([nation,medals[y],medal[y],count ])
+      dff.append([nation,medals[y],medal[y],count ,ordering[y]])
 
 MedalDF = pd.DataFrame(dff)
-MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2:'Medal',3:'Sum'})
+MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2:'Medal',3:'Sum',4:'Ordering'})
+sort = MedalDF.sort_values('Sum', ascending=False)
+sortOrderAll = sort['Country'].unique()
+
 print(MedalDF.head())
+
+
+#Althetes DF
+sportSet = sorted(set(df_athletes['Sport'].unique()))
+sportSet.insert(0,'All')
+
+def createAthletesDF(scope):
+    # Filter DF by sport and teams that won a medal to reduce amount of data
+    filter = df_athletes[df_athletes['Sport'] == str(scope)]
+    filter = filter[filter['Medal'].notnull()]
+    participants = filter['Team'].unique()
+
+
+    liste = []
+
+    # iterate through all participating countries and filter medals out
+    for participant in participants:
+        Bronze = 0
+        Silver = 0
+        Gold = 0
+
+        countryFilter = filter[filter['Team'] == str(participant)]
+        Gold = len(countryFilter[countryFilter['Medal'] == 'Gold'])
+        Silver = len(countryFilter[countryFilter['Medal'] == 'Silver'])
+        Bronze = len(countryFilter[countryFilter['Medal'] == 'Bronze'])
+        Sum = Gold + Silver + Bronze
+
+        BronzeRow = [participant, Bronze, 'Bronze', Sum, 1]
+        SilverRow = [participant, Silver, 'Silver', Sum, 2]
+        GoldRow = [participant, Gold, 'Gold', Sum, 3]
+
+        liste.append(BronzeRow)
+        liste.append(SilverRow)
+        liste.append(GoldRow)
+
+    AthletesDF = pd.DataFrame(liste)
+    AthletesDF = AthletesDF.rename(columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
+    sort = AthletesDF.sort_values('Sum', ascending=False)
+    sortOrder = sort['Country'].unique()
+
+    return AthletesDF, sortOrder
+
 
 
 st.title("Olympics dataset: An insight into countries and athletes")
 st.markdown("Welcome to this in-depth introduction to [...].")
 
+
+
+
 #create bar chart
 def draw_bars(scope):
 
-    # normalized
-    bars = alt.Chart(MedalDF).mark_bar().encode(
+    #initialization parameter
+    data = MedalDF
+    sortOrder = sortOrderAll
+
+    #the All data comes from the countries database and the specific sport
+    #from the sports database that needs filtering by sport first of course
+    # -> createAthletesDF
+    if(scope == 'All'): data = MedalDF
+    else:
+        data,sortOrder = createAthletesDF(scope)
+
+    base = alt.Chart(data).encode(
         x=alt.X('Amount', stack="normalize"),
-        y='Country',
-        color='Medal'
+        #y=alt.Y('Country', sort=alt.EncodingSortField(field="Country", op="count", order='descending')),
+        y=alt.Y('Country', sort=sortOrder)
+
     )
 
-    text = bars.mark_text(
+    bars = base.mark_bar().encode(
+        color=alt.Color('Medal',  sort=alt.EncodingSortField('Ordering', order='ascending')),
+        order='Ordering'
+        )
+
+    text = base.mark_text(
         align='left',
         baseline='middle',
         dx=3  # Nudges text to right so it doesn't appear on top of the bar
@@ -62,10 +128,15 @@ def draw_bars(scope):
         text='Sum'
     )
 
-    (bars + text).properties()
 
     return (bars + text).properties()
 
+#Box to select
+option = st.selectbox(
+     'Select the sport',
+     (sportSet))
+
+st.write(draw_bars(option))
 
 #display bar chart
 #st.write(draw_bars(['Total']))
@@ -73,11 +144,11 @@ def draw_bars(scope):
 
 #Radiobuttons to select
 
-barSelection = st.radio(
-     "Select the scope",
-     ('Total', 'Medals/GDP', 'Medals/Population'))
-
-st.write(draw_bars(barSelection))
+# barSelection = st.radio(
+#      "Select the scope",
+#      ('Total', 'Medals/GDP', 'Medals/Population'))
+#
+# st.write(draw_bars(barSelection))
 
 # if genre == 'Comedy':
 #      st.write('You selected comedy.')
@@ -86,12 +157,7 @@ st.write(draw_bars(barSelection))
 
 
 
-# Box to select
-# option = st.selectbox(
-#      'How would you like to be contacted?',
-#      ('Email', 'Home phone', 'Mobile phone'))
-#
-# st.write('You selected:', option)
+
 
 
 # # FUNCTION FOR AIRPORT MAPS
