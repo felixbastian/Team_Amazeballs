@@ -7,6 +7,7 @@ from vega_datasets import data
 from streamlit_vega_lite import vega_lite_component, altair_component
 import pycountry as pc
 import pycountry_convert as p
+import numpy as np
 
 # SETTING PAGE CONFIG TO WIDE MODE
 st.set_page_config(layout="wide")
@@ -16,16 +17,16 @@ st.title("Olympics dataset: An insight into countries and athletes")
 st.write("## Load data")
 @st.cache(allow_output_mutation=True)
 def LoadData_Countries():
-    return pd.read_csv("/Users/jpgan/Documents/GitHub/Team_Amazeballs/Dataviz/countries_cleaned (1).csv")
+    return pd.read_csv("data/countries_cleaned.csv")
 
 @st.cache(allow_output_mutation=True)
 def LoadData_Athletes():
-    return pd.read_csv("/Users/jpgan/Documents/GitHub/Team_Amazeballs/Dataviz/athletes_cleaned (1).csv")
+    return pd.read_csv("data/athletes_cleaned.csv")
 
 df_countries = LoadData_Countries()
 df_athletes = LoadData_Athletes()
 df_countries = df_countries.rename({'Medal':'Average Medals','Medal.1': 'Total Medals'
-,'Medals': 'Medals in Best Sport', 
+,'Medals': 'Medals in Best Sport',
 'MostSuccessfulSport': 'Most Successful Sport'}, axis="columns")
 df_countries.head()
 df_athletes.head()
@@ -100,6 +101,7 @@ for x in range(len(df_countries['Nation'])):
 
     for y in range(3):
 
+
       dff.append([nation,medals[y],medal[y],count ,ordering[y]])
 
 MedalDF = pd.DataFrame(dff)
@@ -118,6 +120,21 @@ def createAthletesDF(scope):
     # Filter DF by sport and teams that won a medal to reduce amount of data
     filter = df_athletes[df_athletes['Sport'] == str(scope)]
     filter = filter[filter['Medal'].notnull()]
+
+    # if team sport, only take one medal for entire team
+    uniqueSports = df_athletes['Sport'].unique().tolist()
+    isTeamSport = [1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+                   0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0]
+    sportIndex = uniqueSports.index(str(scope))
+    isTeam = isTeamSport[sportIndex]
+
+    # filter by year if teamsports is 1
+    if (isTeam == 1):
+        # takes out all columns to prepare for dublicate reduction
+        filter = filter.iloc[:, 6:]
+
+
+
     participants = filter['Team'].unique()
 
 
@@ -129,7 +146,7 @@ def createAthletesDF(scope):
         Silver = 0
         Gold = 0
 
-        countryFilter = filter[filter['Team'] == str(participant)]
+        countryFilter = filter[filter['Team']==str(participant)].drop_duplicates()
         Gold = len(countryFilter[countryFilter['Medal'] == 'Gold'])
         Silver = len(countryFilter[countryFilter['Medal'] == 'Silver'])
         Bronze = len(countryFilter[countryFilter['Medal'] == 'Bronze'])
@@ -164,6 +181,11 @@ def draw_bars(scope):
     if(scope == 'All'): data = MedalDF
     else:
         data,sortOrder = createAthletesDF(scope)
+
+    #define number of data points to show
+    data = data.sort_values('Sum', ascending=False)
+    data = data.iloc[0:30,:]
+
 
     base = alt.Chart(data).encode(
         x=alt.X('Amount', stack="normalize"),
