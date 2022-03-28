@@ -211,10 +211,36 @@ def draw_bars(scope):
     return (bars + text).properties()
 
 #Box to select
+# filterSet = ['All']
 
 st.markdown("## Breakdown of Medals Won by Country and Sport")
-option = st.selectbox(
-     'Select the sport',
-     (sportSet))
 
+option = st.selectbox('Select the sport',(sportSet))
+
+
+# change(sportSet,0)
 st.write(draw_bars(option))
+
+
+#Radiobuttons to select
+
+radioSelection = st.radio(
+     "Select the scope",
+     ('By Country', 'By Sport'))
+
+
+#
+# #st.write(draw_bars(radioSelection))
+#
+# if radioSelection == 'By Sport':
+#
+#      overallScope = 'Country'
+#      filterSet = ['All', 'Ho']
+#      st.write(draw_bars(change(filterSet, 1)))
+#
+#
+#
+# elif radioSelection == 'By Country':
+#      overallScope = 'Sport'
+#
+#      st.write(draw_bars(change(sportSet, 1)))
