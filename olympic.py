@@ -184,7 +184,7 @@ def draw_bars(scope):
 
     #define number of data points to show
     data = data.sort_values('Sum', ascending=False)
-    data = data.iloc[0:30,:]
+    #data = data.iloc[0:30,:]
 
 
     base = alt.Chart(data).encode(
@@ -195,7 +195,13 @@ def draw_bars(scope):
     )
 
     bars = base.mark_bar().encode(
-        color=alt.Color('Medal',  sort=alt.EncodingSortField('Ordering', order='ascending')),
+        #color=alt.Color('Medal', sort=alt.EncodingSortField('Ordering', order='ascending') ),
+        color=alt.Color('Medal', sort=alt.EncodingSortField('Ordering', order='ascending'),
+                        legend = alt.Legend(
+                            legendX=130, legendY=-40, orient = 'top',direction = 'horizontal', titleAnchor = 'middle'),
+                        scale=alt.Scale(
+                            domain=['Bronze', 'Silver', 'Gold'],
+                            range=['brown', 'silver', 'gold'])),
         order='Ordering'
         )
 
@@ -224,9 +230,9 @@ st.write(draw_bars(option))
 
 #Radiobuttons to select
 
-radioSelection = st.radio(
-     "Select the scope",
-     ('By Country', 'By Sport'))
+# radioSelection = st.radio(
+#      "Select the scope",
+#      ('By Country', 'By Sport'))
 
 
 #
