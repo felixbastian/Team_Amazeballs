@@ -10,7 +10,9 @@ st.set_page_config(layout="wide")
 PAGES = {
     "Data overview": Data_overview,
     "Olympic success": olympic,
-    "Olympic sports overview": sports_view
+    "Olympic sports overview": sports_view,
+    "Gender based medal distribution": gender_contribution,
+    "Athlete characteristics": characteristics
 }
 
 st.sidebar.title('Navigation')
