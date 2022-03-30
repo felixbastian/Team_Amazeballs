@@ -157,6 +157,7 @@ def app():
         # -> createAthletesDF
         if(scope == 'All'):
             data = MedalDF
+            #gender, height, weight, age =
         else:
             data, sortOrder = createAthletesDF(scope)
 
@@ -181,7 +182,7 @@ def app():
                                 domain=['Bronze', 'Silver', 'Gold'],
                                 range=['brown', 'silver', 'gold'])),
             order='Ordering'
-        )
+        ).properties(width = 1300)
 
         # text = base.mark_text(
         #     align='left',

@@ -21,6 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cd389a6e-0084-4ee9-9f17-90bae2a2bc1f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/athletes_cleaned.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/athletes_cleaned.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sports_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/sports_view.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
