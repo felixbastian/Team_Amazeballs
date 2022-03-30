@@ -25,6 +25,16 @@ def LoadData_Athletes():
 
 df_countries = LoadData_Countries()
 df_athletes = LoadData_Athletes()
+
+#Last minute data cleaning
+
+#Taking out sports with nearly no medal information
+df_athletes = df_athletes[df_athletes['Sport']!=str('Aeronautics') ]
+df_athletes = df_athletes[df_athletes['Sport']!=str('Alpinism') ]
+df_athletes = df_athletes[df_athletes['Sport']!=str('Basque Pelota') ]
+df_athletes = df_athletes[df_athletes['Sport']!=str('Military Ski Patrol') ]
+
+
 df_countries = df_countries.rename({'Medal':'Average Medals','Medal.1': 'Total Medals'
 ,'Medals': 'Medals in Best Sport',
 'MostSuccessfulSport': 'Most Successful Sport'}, axis="columns")
@@ -123,8 +133,7 @@ def createAthletesDF(scope):
 
     # if team sport, only take one medal for entire team
     uniqueSports = df_athletes['Sport'].unique().tolist()
-    isTeamSport = [1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-                   0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0]
+    isTeamSport = [1,0,1,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,0,0,1,0,1,0,0,1,0,1,0,1,1,1,1,1,0,1,1,1]
     sportIndex = uniqueSports.index(str(scope))
     isTeam = isTeamSport[sportIndex]
 
