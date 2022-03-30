@@ -140,6 +140,7 @@ option = st.selectbox(
 
 st.write(draw_bars(option))
 
+
 # display bar chart
 # st.write(draw_bars(['Total']))
 
