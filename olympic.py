@@ -89,5 +89,5 @@ def app():
         return chart
 
     st.write("## No. of Olympic Apps vs. Total Medals Won")
-    st.write("This graph allows the user to visualize how good each country is at the Olympics, relative to its number of appearances at the Olympics and its population. With this, we are able to spot countries (and even continents) who underperform despite its population or despite its longevity in the games, and vice versa. The graph is interactive, feel free to pan, zoom in, zoom out, and filter by continent to analyze with more depth. Hover over each mark to get more information about each country. To reset the graph or to remove filters, just double click anywhere on it.")
+    st.write("This graph allows the user to visualize how talented each country is at the Olympics, relative to its number of appearances at the Olympics and its population. With this, we are able to spot countries (and even continents) who underperform despite its population or despite its longevity in the games, and vice versa. The graph is interactive, feel free to pan, zoom in, zoom out, and filter by continent to analyze with more depth. Hover over each mark to get more information about each country. To reset the graph or to remove filters, just double click anywhere on it.")
     st.altair_chart(plotScatterPlot(), use_container_width=False)
