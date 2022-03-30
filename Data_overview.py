@@ -32,7 +32,6 @@ def app():
     df_countries = df_countries.rename({'Medal': 'Average Medals', 'Medal.1': 'Total Medals', 'Medals': 'Medals in Best Sport',
                                         'MostSuccessfulSport': 'Most Successful Sport'}, axis="columns")
     df_countries.head()
-
     df_athletes.head()
 
     df_countries['Country'] = ""
