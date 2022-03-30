@@ -1,4 +1,4 @@
-"""An example of showing geographic data."""
+"""An example showing geographic data."""
 
 import streamlit as st
 import pandas as pd
