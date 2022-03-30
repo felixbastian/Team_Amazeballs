@@ -9,6 +9,7 @@ import pycountry as pc
 import pycountry_convert as p
 import numpy as np
 
+
 def app():
 
     @st.cache(allow_output_mutation=True)
@@ -22,18 +23,16 @@ def app():
     df_countries = LoadData_Countries()
     df_athletes = LoadData_Athletes()
 
-    #Last minute data cleaning
+    # Last minute data cleaning
 
-    #Taking out sports with nearly no medal information
-    df_athletes = df_athletes[df_athletes['Sport']!=str('Aeronautics') ]
-    df_athletes = df_athletes[df_athletes['Sport']!=str('Alpinism') ]
-    df_athletes = df_athletes[df_athletes['Sport']!=str('Basque Pelota') ]
-    df_athletes = df_athletes[df_athletes['Sport']!=str('Military Ski Patrol') ]
+    # Taking out sports with nearly no medal information
+    df_athletes = df_athletes[df_athletes['Sport'] != str('Aeronautics')]
+    df_athletes = df_athletes[df_athletes['Sport'] != str('Alpinism')]
+    df_athletes = df_athletes[df_athletes['Sport'] != str('Basque Pelota')]
+    df_athletes = df_athletes[df_athletes['Sport'] != str('Military Ski Patrol')]
 
-
-    df_countries = df_countries.rename({'Medal':'Average Medals','Medal.1': 'Total Medals'
-    ,'Medals': 'Medals in Best Sport',
-    'MostSuccessfulSport': 'Most Successful Sport'}, axis="columns")
+    df_countries = df_countries.rename({'Medal': 'Average Medals', 'Medal.1': 'Total Medals', 'Medals': 'Medals in Best Sport',
+                                        'MostSuccessfulSport': 'Most Successful Sport'}, axis="columns")
     df_countries.head()
     df_athletes.head()
 
@@ -60,40 +59,41 @@ def app():
         else:
             df_countries['Country'].iloc[i] = df_countries['Nation'].iloc[i]
 
-    df_countries['alpha2'] = [p.country_name_to_country_alpha2(df_countries['Country'].iloc[i]) for i in range(len(df_countries))]
+    df_countries['alpha2'] = [p.country_name_to_country_alpha2(
+        df_countries['Country'].iloc[i]) for i in range(len(df_countries))]
     for i in range(len(df_countries)):
         if df_countries.iloc[i]['alpha2'] == 'TL':
             df_countries['alpha2'].iloc[i] = 'ID'
 
-    df_countries['Continent'] = [p.country_alpha2_to_continent_code(df_countries['alpha2'].iloc[i]) for i in range(len(df_countries))]
-
+    df_countries['Continent'] = [p.country_alpha2_to_continent_code(
+        df_countries['alpha2'].iloc[i]) for i in range(len(df_countries))]
 
     dff = []
-    df_countries = df_countries.sort_values(by=['Total Medals'], ascending = False)
+    df_countries = df_countries.sort_values(by=['Total Medals'], ascending=False)
 
     for x in range(len(df_countries['Nation'])):
         nation = df_countries['Nation'].iloc[x]
-        medals = [df_countries['Bronze'].iloc[x], df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
+        medals = [df_countries['Bronze'].iloc[x],
+                  df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
         medal = ['Bronze', 'Silver', 'Gold']
-        ordering = [1,2,3]
+        ordering = [1, 2, 3]
         count = df_countries['Total Medals'].iloc[x]
 
         for y in range(3):
 
-
-          dff.append([nation,medals[y],medal[y],count ,ordering[y]])
+            dff.append([nation, medals[y], medal[y], count, ordering[y]])
 
     MedalDF = pd.DataFrame(dff)
-    MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2:'Medal',3:'Sum',4:'Ordering'})
+    MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount",
+                                      2: 'Medal', 3: 'Sum', 4: 'Ordering'})
     sort = MedalDF.sort_values('Sum', ascending=False)
     sortOrderAll = sort['Country'].unique()
 
     print(MedalDF.head())
 
-
-    #Althetes DF
+    # Althetes DF
     sportSet = sorted(set(df_athletes['Sport'].unique()))
-    sportSet.insert(0,'All')
+    sportSet.insert(0, 'All')
 
     def createAthletesDF(scope):
         # Filter DF by sport and teams that won a medal to reduce amount of data
@@ -102,7 +102,8 @@ def app():
 
         # if team sport, only take one medal for entire team
         uniqueSports = df_athletes['Sport'].unique().tolist()
-        isTeamSport = [1,0,1,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,1,0,1,1,0,0,1,0,1,0,0,1,0,1,0,1,1,1,1,1,0,1,1,1]
+        isTeamSport = [1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1,
+                       0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1]
         sportIndex = uniqueSports.index(str(scope))
         isTeam = isTeamSport[sportIndex]
 
@@ -111,10 +112,7 @@ def app():
             # takes out all columns to prepare for dublicate reduction
             filter = filter.iloc[:, 6:]
 
-
-
         participants = filter['Team'].unique()
-
 
         liste = []
 
@@ -124,7 +122,7 @@ def app():
             Silver = 0
             Gold = 0
 
-            countryFilter = filter[filter['Team']==str(participant)].drop_duplicates()
+            countryFilter = filter[filter['Team'] == str(participant)].drop_duplicates()
             Gold = len(countryFilter[countryFilter['Medal'] == 'Gold'])
             Silver = len(countryFilter[countryFilter['Medal'] == 'Silver'])
             Bronze = len(countryFilter[countryFilter['Medal'] == 'Bronze'])
@@ -139,31 +137,32 @@ def app():
             liste.append(GoldRow)
 
         AthletesDF = pd.DataFrame(liste)
-        AthletesDF = AthletesDF.rename(columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
+        AthletesDF = AthletesDF.rename(
+            columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
         sort = AthletesDF.sort_values('Sum', ascending=False)
         sortOrder = sort['Country'].unique()
 
         return AthletesDF, sortOrder
 
+    # create bar chart
 
-    #create bar chart
     def draw_bars(scope):
 
-        #initialization parameter
+        # initialization parameter
         data = MedalDF
         sortOrder = sortOrderAll
 
-        #the All data comes from the countries database and the specific sport
-        #from the sports database that needs filtering by sport first of course
+        # the All data comes from the countries database and the specific sport
+        # from the sports database that needs filtering by sport first of course
         # -> createAthletesDF
-        if(scope == 'All'): data = MedalDF
+        if(scope == 'All'):
+            data = MedalDF
         else:
-            data,sortOrder = createAthletesDF(scope)
+            data, sortOrder = createAthletesDF(scope)
 
-        #define number of data points to show
+        # define number of data points to show
         data = data.sort_values('Sum', ascending=False)
-        data = data.iloc[0:60,:]
-
+        data = data.iloc[0:60, :]
 
         base = alt.Chart(data).encode(
             #x=alt.X('Amount', stack="normalize"),
@@ -176,13 +175,13 @@ def app():
         bars = base.mark_bar().encode(
             #color=alt.Color('Medal', sort=alt.EncodingSortField('Ordering', order='ascending') ),
             color=alt.Color('Medal', sort=alt.EncodingSortField('Ordering', order='ascending'),
-                            legend = alt.Legend(
-                                legendX=130, legendY=-40, orient = 'top',direction = 'horizontal', titleAnchor = 'middle'),
+                            legend=alt.Legend(
+                                legendX=130, legendY=-40, orient='top', direction='horizontal', titleAnchor='middle'),
                             scale=alt.Scale(
                                 domain=['Bronze', 'Silver', 'Gold'],
                                 range=['brown', 'silver', 'gold'])),
             order='Ordering'
-            )
+        )
 
         # text = base.mark_text(
         #     align='left',
@@ -192,27 +191,23 @@ def app():
         #     text='Sum'
         # )
 
-
         return bars
 
-    #Box to select
+    # Box to select
     # filterSet = ['All']
 
     st.markdown("## Breakdown of Medals Won by Country and Sport")
 
-    option = st.selectbox('Select the sport',(sportSet))
-
-
+    option = st.selectbox('Select the sport', (sportSet))
 
     # change(sportSet,0)
     st.write(draw_bars(option))
 
-    #Radiobuttons to select
+    # Radiobuttons to select
 
     # radioSelection = st.radio(
     #      "Select the scope",
     #      ('By Country', 'By Sport'))
-
 
     #
     # #st.write(draw_bars(radioSelection))

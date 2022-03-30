@@ -1,4 +1,4 @@
-"""An example of showing geographic data."""
+"""An example showing geographic data."""
 
 import streamlit as st
 import pandas as pd
@@ -9,53 +9,56 @@ import altair as alt
 # SETTING PAGE CONFIG TO WIDE MODE
 st.set_page_config(layout="wide")
 
-#load data
-#st.cache makes the data to be only loaded once - decorator
+# load data
+# st.cache makes the data to be only loaded once - decorator
+
+
 @st.cache
 def load_data():
-    athletes = pd.read_csv("data/athletes_cleaned.csv" )
-    countries = pd.read_csv("data/countries_cleaned.csv" )
+    athletes = pd.read_csv("data/athletes_cleaned.csv")
+    countries = pd.read_csv("data/countries_cleaned.csv")
 
     return athletes, countries
 
-# STREAMLIT APP LAYOUT
-df_athletes,df_countries = load_data()
 
+# STREAMLIT APP LAYOUT
+df_athletes, df_countries = load_data()
 
 
 dff = []
 
-df_countries = df_countries.sort_values(by=['Medal.1'], ascending = False)
+df_countries = df_countries.sort_values(by=['Medal.1'], ascending=False)
 
 for x in range(len(df_countries['Nation'])):
     nation = df_countries['Nation'].iloc[x]
-    medals = [df_countries['Bronze'].iloc[x], df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
+    medals = [df_countries['Bronze'].iloc[x],
+              df_countries['Silver'].iloc[x], df_countries['Gold'].iloc[x]]
     medal = ['Bronze', 'Silver', 'Gold']
-    ordering = [1,2,3]
+    ordering = [1, 2, 3]
     count = df_countries['Medal.1'].iloc[x]
 
     for y in range(3):
 
-      dff.append([nation,medals[y],medal[y],count ,ordering[y]])
+        dff.append([nation, medals[y], medal[y], count, ordering[y]])
 
 MedalDF = pd.DataFrame(dff)
-MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2:'Medal',3:'Sum',4:'Ordering'})
+MedalDF = MedalDF.rename(columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
 sort = MedalDF.sort_values('Sum', ascending=False)
 sortOrderAll = sort['Country'].unique()
 
 print(MedalDF.head())
 
 
-#Althetes DF
+# Althetes DF
 sportSet = sorted(set(df_athletes['Sport'].unique()))
-sportSet.insert(0,'All')
+sportSet.insert(0, 'All')
+
 
 def createAthletesDF(scope):
     # Filter DF by sport and teams that won a medal to reduce amount of data
     filter = df_athletes[df_athletes['Sport'] == str(scope)]
     filter = filter[filter['Medal'].notnull()]
     participants = filter['Team'].unique()
-
 
     liste = []
 
@@ -80,33 +83,32 @@ def createAthletesDF(scope):
         liste.append(GoldRow)
 
     AthletesDF = pd.DataFrame(liste)
-    AthletesDF = AthletesDF.rename(columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
+    AthletesDF = AthletesDF.rename(
+        columns={0: "Country", 1: "Amount", 2: 'Medal', 3: 'Sum', 4: 'Ordering'})
     sort = AthletesDF.sort_values('Sum', ascending=False)
     sortOrder = sort['Country'].unique()
 
     return AthletesDF, sortOrder
 
 
-
 st.title("Olympics dataset: An insight into countries and athletes")
 st.markdown("Welcome to this in-depth introduction to [...].")
 
 
-
-
-#create bar chart
+# create bar chart
 def draw_bars(scope):
 
-    #initialization parameter
+    # initialization parameter
     data = MedalDF
     sortOrder = sortOrderAll
 
-    #the All data comes from the countries database and the specific sport
-    #from the sports database that needs filtering by sport first of course
+    # the All data comes from the countries database and the specific sport
+    # from the sports database that needs filtering by sport first of course
     # -> createAthletesDF
-    if(scope == 'All'): data = MedalDF
+    if(scope == 'All'):
+        data = MedalDF
     else:
-        data,sortOrder = createAthletesDF(scope)
+        data, sortOrder = createAthletesDF(scope)
 
     base = alt.Chart(data).encode(
         x=alt.X('Amount', stack="normalize"),
@@ -118,7 +120,7 @@ def draw_bars(scope):
     bars = base.mark_bar().encode(
         color=alt.Color('Medal',  sort=alt.EncodingSortField('Ordering', order='ascending')),
         order='Ordering'
-        )
+    )
 
     text = base.mark_text(
         align='left',
@@ -128,21 +130,22 @@ def draw_bars(scope):
         text='Sum'
     )
 
-
     return (bars + text).properties()
 
-#Box to select
+
+# Box to select
 option = st.selectbox(
-     'Select the sport',
-     (sportSet))
+    'Select the sport',
+    (sportSet))
 
 st.write(draw_bars(option))
 
-#display bar chart
-#st.write(draw_bars(['Total']))
+
+# display bar chart
+# st.write(draw_bars(['Total']))
 
 
-#Radiobuttons to select
+# Radiobuttons to select
 
 # barSelection = st.radio(
 #      "Select the scope",
@@ -152,12 +155,6 @@ st.write(draw_bars(option))
 
 # if genre == 'Comedy':
 #      st.write('You selected comedy.')
-
-
-
-
-
-
 
 
 # # FUNCTION FOR AIRPORT MAPS
