@@ -193,11 +193,12 @@ def draw_bars(scope):
 
     #define number of data points to show
     data = data.sort_values('Sum', ascending=False)
-    #data = data.iloc[0:30,:]
+    data = data.iloc[0:30,:]
 
 
     base = alt.Chart(data).encode(
-        x=alt.X('Amount', stack="normalize"),
+        #x=alt.X('Amount', stack="normalize"),
+        x=alt.X('Amount'),
         #y=alt.Y('Country', sort=alt.EncodingSortField(field="Country", op="count", order='descending')),
         y=alt.Y('Country', sort=sortOrder)
 
@@ -214,16 +215,16 @@ def draw_bars(scope):
         order='Ordering'
         )
 
-    text = base.mark_text(
-        align='left',
-        baseline='middle',
-        dx=3  # Nudges text to right so it doesn't appear on top of the bar
-    ).encode(
-        text='Sum'
-    )
+    # text = base.mark_text(
+    #     align='left',
+    #     baseline='middle',
+    #     dx=3  # Nudges text to right so it doesn't appear on top of the bar
+    # ).encode(
+    #     text='Sum'
+    # )
 
 
-    return (bars + text).properties()
+    return bars
 
 #Box to select
 # filterSet = ['All']
