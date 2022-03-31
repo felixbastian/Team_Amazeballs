@@ -2,6 +2,8 @@
 import olympic
 import Data_overview
 import sports_view
+import gender_contribution
+import characteristics
 import streamlit as st
 
 # SETTING PAGE CONFIG TO WIDE MODE

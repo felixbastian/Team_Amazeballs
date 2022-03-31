@@ -197,12 +197,91 @@ def app():
     # Box to select
     # filterSet = ['All']
 
+
+
+    def drawPlot1(scope):
+
+        if (scope == 'All'):
+            filter = df_athletes[['Age', 'Sex']]
+
+
+        else:
+            filter = df_athletes[df_athletes['Sport'] == str(scope)]
+            filter = filter[['Age', 'Sex']]
+
+
+        st.markdown("## Age distribution")
+
+        chart = alt.Chart(filter).mark_boxplot().encode(
+            x='Age',
+            y='Sex'
+        )
+
+
+
+        return chart
+
+    def drawPlot2(scope):
+
+        if (scope == 'All'):
+            filter = df_athletes[['Weight', 'Sex']]
+
+
+        else:
+            filter = df_athletes[df_athletes['Sport'] == str(scope)]
+            filter = filter[['Weight', 'Sex']]
+
+        st.markdown("## Weight distribution (Kg)")
+
+        chart = alt.Chart(filter).mark_boxplot().encode(
+            x='Weight',
+            y='Sex'
+        )
+
+        return chart
+
+    def drawPlot3(scope):
+
+        if (scope == 'All'):
+            filter = df_athletes[['Height', 'Sex']]
+
+
+        else:
+            filter = df_athletes[df_athletes['Sport'] == str(scope)]
+            filter = filter[['Height', 'Sex']]
+
+        st.markdown("## Height distribution (cm)")
+
+        chart = alt.Chart(filter).mark_boxplot().encode(
+            x='Height',
+            y='Sex'
+        )
+
+        return chart
+
+
+
     st.markdown("## Breakdown of Medals Won by Country and Sport")
 
     option = st.selectbox('Select the sport', (sportSet))
 
-    # change(sportSet,0)
     st.write(draw_bars(option))
+
+    col1, col2, col3 = st.columns((1,1,1))
+
+    with col1:
+        st.write(drawPlot1(option))
+
+    with col2:
+        st.write(drawPlot2(option))
+    with col3:
+        st.write(drawPlot3(option))
+
+    # change(sportSet,0)
+
+
+
+
 
     # Radiobuttons to select
 
@@ -225,3 +304,4 @@ def app():
     #      overallScope = 'Sport'
     #
     #      st.write(draw_bars(change(sportSet, 1)))
+app()
