@@ -85,100 +85,39 @@ pycosat==0.6.3
 pycurl==7.43.0.6
 pydeck==0.7.1
 pyreadline==2.1
-pyrsistent @ file:///C:/ci/pyrsistent_1600141795814/work
 pyserial==3.5
-PySocks @ file:///C:/ci/pysocks_1605287845585/work
-pyspark @ file:///tmp/build/80754af9/pyspark_1623682115299/work
 pytest==6.2.3
-python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
-python-jsonrpc-server @ file:///tmp/build/80754af9/python-jsonrpc-server_1600278539111/work
-python-language-server @ file:///tmp/build/80754af9/python-language-server_1607972495879/work
-pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
 pytz-deprecation-shim==0.1.0.post0
-PyWavelets @ file:///C:/ci/pywavelets_1601658407916/work
 pywin32==227
 pywin32-ctypes==0.2.0
 pywinpty==0.5.7
 PyYAML==5.4.1
 pyzmq==20.0.0
 QDarkStyle==2.8.1
-QtAwesome @ file:///tmp/build/80754af9/qtawesome_1615991616277/work
-qtconsole @ file:///tmp/build/80754af9/qtconsole_1616775094278/work
 QtPy==1.9.0
-regex @ file:///C:/ci/regex_1617569893741/work
-requests @ file:///tmp/build/80754af9/requests_1608241421344/work
 retrying==1.3.3
-rope @ file:///tmp/build/80754af9/rope_1602264064449/work
-Rtree @ file:///C:/ci/rtree_1618421009405/work
-ruamel-yaml-conda @ file:///C:/ci/ruamel_yaml_1616016967756/work
 scikit-image==0.18.1
-scikit-learn @ file:///C:/ci/scikit-learn_1642599125707/work
 scipy==1.6.3
-seaborn @ file:///tmp/build/80754af9/seaborn_1608578541026/work
-Send2Trash @ file:///tmp/build/80754af9/send2trash_1607525499227/work
 simplegeneric==0.8.1
-singledispatch @ file:///tmp/build/80754af9/singledispatch_1614366001199/work
 sip==4.19.13
-six @ file:///C:/ci/six_1605187374963/work
 smmap==5.0.0
-sniffio @ file:///C:/ci/sniffio_1614030707456/work
-snowballstemmer @ file:///tmp/build/80754af9/snowballstemmer_1611258885636/work
-sortedcollections @ file:///tmp/build/80754af9/sortedcollections_1611172717284/work
-sortedcontainers @ file:///tmp/build/80754af9/sortedcontainers_1606865132123/work
-soupsieve @ file:///tmp/build/80754af9/soupsieve_1616183228191/work
-Sphinx @ file:///tmp/build/80754af9/sphinx_1620777493457/work
-sphinxcontrib-applehelp @ file:///home/ktietz/src/ci/sphinxcontrib-applehelp_1611920841464/work
-sphinxcontrib-devhelp @ file:///home/ktietz/src/ci/sphinxcontrib-devhelp_1611920923094/work
-sphinxcontrib-htmlhelp @ file:///home/ktietz/src/ci/sphinxcontrib-htmlhelp_1611920974801/work
-sphinxcontrib-jsmath @ file:///home/ktietz/src/ci/sphinxcontrib-jsmath_1611920942228/work
-sphinxcontrib-qthelp @ file:///home/ktietz/src/ci/sphinxcontrib-qthelp_1611921055322/work
-sphinxcontrib-serializinghtml @ file:///home/ktietz/src/ci/sphinxcontrib-serializinghtml_1611920755253/work
-sphinxcontrib-websupport @ file:///tmp/build/80754af9/sphinxcontrib-websupport_1597081412696/work
-spyder @ file:///C:/ci/spyder_1616776239898/work
-spyder-kernels @ file:///C:/ci/spyder-kernels_1614030842607/work
-SQLAlchemy @ file:///C:/ci/sqlalchemy_1618090063261/work
 statsmodels==0.12.2
 streamlit==0.86.0
-sympy @ file:///C:/ci/sympy_1618255511605/work
 tables==3.6.1
-tblib @ file:///tmp/build/80754af9/tblib_1597928476713/work
 terminado==0.9.4
-testpath @ file:///home/ktietz/src/ci/testpath_1611930608132/work
-textdistance @ file:///tmp/build/80754af9/textdistance_1612461398012/work
-threadpoolctl @ file:///tmp/tmp9twdgx9k/threadpoolctl-2.1.0-py3-none-any.whl
-three-merge @ file:///tmp/build/80754af9/three-merge_1607553261110/work
-tifffile @ file:///tmp/build/80754af9/tifffile_1619636090847/work
-toml @ file:///tmp/build/80754af9/toml_1616166611790/work
-toolz @ file:///home/linux1/recipes/ci/toolz_1610987900194/work
 torch==1.10.2
-tornado @ file:///C:/ci/tornado_1606942392901/work
-tqdm @ file:///tmp/build/80754af9/tqdm_1615925068909/work
-traitlets @ file:///home/ktietz/src/ci/traitlets_1611929699868/work
-typed-ast @ file:///C:/ci/typed-ast_1610466535590/work
-typing-extensions @ file:///home/ktietz/src/ci_mi/typing_extensions_1612808209620/work
 tzdata==2021.5
 tzlocal==4.1
-ujson @ file:///C:/ci/ujson_1611241570789/work
 unicodecsv==0.14.1
-urllib3 @ file:///opt/conda/conda-bld/urllib3_1643638302206/work
 validators==0.18.2
-watchdog @ file:///C:/ci/watchdog_1612471251191/work
-wcwidth @ file:///tmp/build/80754af9/wcwidth_1593447189090/work
 webencodings==0.5.1
-Werkzeug @ file:///home/ktietz/src/ci/werkzeug_1611932622770/work
 widgetsnbextension==3.5.1
-win-inet-pton @ file:///C:/ci/win_inet_pton_1605306167264/work
 win-unicode-console==0.5
 wincertstore==0.2
 wrapt==1.12.1
-xlrd @ file:///tmp/build/80754af9/xlrd_1608072521494/work
-XlsxWriter @ file:///tmp/build/80754af9/xlsxwriter_1617224712951/work
 xlwings==0.23.0
 xlwt==1.3.0
 xmltodict==0.12.0
-yapf @ file:///tmp/build/80754af9/yapf_1615749224965/work
 yarg==0.1.9
 zict==2.0.0
-zipp @ file:///tmp/build/80754af9/zipp_1615904174917/work
 zope.event==4.5.0
-zope.interface @ file:///C:/ci/zope.interface_1616357322857/work
