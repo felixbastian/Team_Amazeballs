@@ -3,7 +3,6 @@ import olympic
 import Data_overview
 import sports_view
 import gender_contribution
-import characteristics
 import streamlit as st
 
 # SETTING PAGE CONFIG TO WIDE MODE
@@ -13,8 +12,7 @@ PAGES = {
     "Data overview": Data_overview,
     "Olympic success": olympic,
     "Olympic sports overview": sports_view,
-    "Gender based medal distribution": gender_contribution,
-    "Athlete characteristics": characteristics
+    "Gender based medal distribution": gender_contribution
 }
 
 st.sidebar.title('Navigation')
