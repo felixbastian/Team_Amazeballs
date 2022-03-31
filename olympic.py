@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 from altair import datum
 import time
-# from vega_datasets import data
+from vega_datasets import data
 from streamlit_vega_lite import vega_lite_component, altair_component
 import pycountry as pc
 import pycountry_convert as p
